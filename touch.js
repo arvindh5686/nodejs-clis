@@ -7,7 +7,7 @@ let fs = require('fs').promise,
 
 function* touch() {
     var d = new Date();
-    let fd = yield fs.open(fileName, 'w');
+    let fd = yield fs.open(fileName, 'r');
     yield fs.futimes(fd, d, d);
 }
 
