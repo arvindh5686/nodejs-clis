@@ -2,15 +2,12 @@
 
 require('./helper')
 let fs = require('fs').promise,
+	log = process.stdout.promise,
 	text = process.argv[2];
 
 
 function* echo() {
-    // Use 'yield' in here
-    // Your implementation here
-    console.log(process.argv);
-    console.log(yield fs.readFile(__filename, console.log));
-    process.stdout.write(text);
+    yield log.write(text + "\n");
 }
 
 module.exports = echo
