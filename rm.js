@@ -12,8 +12,7 @@ function* rm() {
 		if(! fileStat.isDirectory()) {
 			yield fs.unlink(path);
 		} else {
-			let files = yield ls(path);
-			//console.log("hey", files);
+			let files = yield ls(path, true);
 			for (let fileName in files) {
 				console.log(files[fileName])
 				yield fs.unlink(files[fileName]);
