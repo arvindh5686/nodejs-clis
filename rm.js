@@ -12,9 +12,9 @@ function* rm() {
 		if(! fileStat.isDirectory()) {
 			yield fs.unlink(path);
 		} else {
+			//get all the files recursively
 			let files = yield ls(path, true);
 			for (let fileName in files) {
-				console.log(files[fileName])
 				yield fs.unlink(files[fileName]);
 			}
 		}
@@ -28,7 +28,6 @@ function* rm() {
 
 function* deleteDir(path) {
 	let dirArray = yield fs.readdir(path);
-	console.log(dirArray.length);
 	if (dirArray.length) {
 		for (let i=0; i<dirArray.length; i++) {
 			yield deleteDir(path + '/' + dirArray[i]);
