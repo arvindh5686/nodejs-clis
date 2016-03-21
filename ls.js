@@ -14,13 +14,9 @@ let fs = require('fs').promise;
 ls = co.wrap(ls);
 
 function* ls(rootPath) {
-  // Use 'yield' in here
-  //console.log('Executing ls function...');
-
   let fileStat = yield fs.stat(rootPath);
 
   if(! fileStat.isDirectory()) {
-	//process.stdout.write(rootPath + "\n");
 	return [rootPath];
   }
 
@@ -36,10 +32,12 @@ function* ls(rootPath) {
 	return yield Promise.all(_.flatten(lsPromises));
 }
 
-function* main() {
-	var test = yield ls(dir);
-	console.log(test);
-	//process.stdout.write(test);
+function* main(dirPath) {
+	dirPath = dirPath || dir;
+	let files = yield ls(dirPath);
+	console.log(files);
+	return files;
+//	process.stdout.write(files);
 }
 
 module.exports = main

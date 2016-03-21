@@ -2,6 +2,7 @@
 
 require('./helper')
 let fs = require('fs').promise,
+	ls = require('./ls'),
 	path = process.argv[2];
 
 
@@ -11,25 +12,31 @@ function* rm() {
 		if(! fileStat.isDirectory()) {
 			yield fs.unlink(path);
 		} else {
-			let dirArray = path.split('/');
-			let dirPath = '.';
-			for(let dir of dirArray) {
-				if(dir === '.') continue;
-				dirPath +=  "/" + dir;
-
-				let fileNames = yield fs.readdir(dirPath);
-
-				for (let fileName of fileNames) {
-					let filePath = path.join(dirPath, fileName);
-				    yield fs.unlink(filePath);
-				}
-				
-				yield fs.unlink(dirPath);
+			let files = yield ls(path);
+			//console.log("hey", files);
+			for (let fileName in files) {
+				console.log(files[fileName])
+				yield fs.unlink(files[fileName]);
 			}
 		}
+
+		yield deleteDir(path);
 	} catch(e) {
+		console.log(e);
 		process.stdout.write("File not found");
 	}
+}
+
+function* deleteDir(path) {
+	let dirArray = yield fs.readdir(path);
+	console.log(dirArray.length);
+	if (dirArray.length) {
+		for (let i=0; i<dirArray.length; i++) {
+			yield deleteDir(path + '/' + dirArray[i]);
+		}
+	}
+	yield fs.rmdir(path);
+	
 }
 
 module.exports = rm
