@@ -3,7 +3,7 @@
 require('./helper');
 let path = require('path');
 let argv = require('yargs').argv;
-let dir = process.argv[2];
+let dir = process.argv[2] ? process.argv[2] : './';
 let isRecurive = process.argv[3] === '-R' ? true : false;
 let co = require('co');
 let _ = require('lodash');
@@ -30,7 +30,7 @@ function* ls(rootPath, start) {
 	    let promise = yield ls(filePath, false)
 	    lsPromises.push(promise)
 	}
-	
+
 	return yield Promise.all(_.flatten(lsPromises));
 }
 

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A collection of CLI utilities",
   "main": "index.js",
+  "bin": {
+    "cli-echo": "./echo.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
