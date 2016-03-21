@@ -14,6 +14,7 @@ function* mkdir() {
 		try {
 			yield fs.stat(path);
 		} catch(e) {
+			//console.log(e);
 			yield fs.mkdir(path);
 		}
 	}
